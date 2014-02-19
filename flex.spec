@@ -1,11 +1,11 @@
 Summary:	GNU fast lexical analyzer generator
 Name:		flex
-Version:	2.5.37
-Release:	1
+Version:	2.5.38
+Release:	2
 License:	BSD-like
 Group:		Development/Tools
 Source0:	http://downloads.sourceforge.net/sourceforge/flex/%{name}-%{version}.tar.bz2
-# Source0-md5:	c75940e1fc25108f2a7b3ef42abdae06
+# Source0-md5:	b230c88e65996ff74994d08a2a2e0f27
 Patch0:		%{name}-locale.patch
 URL:		http://flex.sourceforge.net/
 BuildRequires:	autoconf
@@ -32,13 +32,13 @@ bison, and is used by many programs as part of their build process.
 %patch0 -p1
 
 # diable pdf build
-sed -i "/dist_doc_DATA/d" doc/Makefile.am
+%{__sed} -i "/dist_doc_DATA/d" doc/Makefile.am
 
 # diable test failing with bison 2.6.x
-sed -i -e "/test-bison-yylloc/d" -e "/test-bison-yylval/d" tests/Makefile.am
+%{__sed} -i -e "/test-bison-yylloc/d" -e "/test-bison-yylval/d" tests/Makefile.am
 
 # force regeneration
-rm -f skel.c
+%{__rm} skel.c
 
 %build
 %{__gettextize}
@@ -46,7 +46,8 @@ rm -f skel.c
 %{__autoconf}
 %{__autoheader}
 %{__automake}
-%configure
+%configure \
+    --disable-shared
 %{__make}
 
 %install
@@ -54,6 +55,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/lib*.la
+
+%{__mv} $RPM_BUILD_ROOT%{_localedir}/{zh_tw,zh_TW}
 
 ln -sf flex $RPM_BUILD_ROOT%{_bindir}/lex
 ln -sf flex $RPM_BUILD_ROOT%{_bindir}/flex++
@@ -69,10 +74,10 @@ echo .so flex.1 > $RPM_BUILD_ROOT%{_mandir}/man1/lex.1
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p	/sbin/postshell
+%post	-p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
-%postun	-p	/sbin/postshell
+%postun	-p /sbin/postshell
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
 %files -f %{name}.lang
