@@ -1,11 +1,11 @@
 Summary:	GNU fast lexical analyzer generator
 Name:		flex
-Version:	2.5.38
-Release:	2
+Version:	2.5.39
+Release:	1
 License:	BSD-like
 Group:		Development/Tools
 Source0:	http://downloads.sourceforge.net/sourceforge/flex/%{name}-%{version}.tar.bz2
-# Source0-md5:	b230c88e65996ff74994d08a2a2e0f27
+# Source0-md5:	77d44c6bb8c0705e0017ab9a84a1502b
 Patch0:		%{name}-locale.patch
 URL:		http://flex.sourceforge.net/
 BuildRequires:	autoconf
@@ -57,8 +57,6 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/lib*.la
-
-%{__mv} $RPM_BUILD_ROOT%{_localedir}/{zh_tw,zh_TW}
 
 ln -sf flex $RPM_BUILD_ROOT%{_bindir}/lex
 ln -sf flex $RPM_BUILD_ROOT%{_bindir}/flex++
