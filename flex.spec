@@ -1,7 +1,8 @@
+# based on PLD Linux spec git://git.pld-linux.org/packages/flex.git
 Summary:	GNU fast lexical analyzer generator
 Name:		flex
 Version:	2.5.39
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Development/Tools
 Source0:	http://downloads.sourceforge.net/sourceforge/flex/%{name}-%{version}.tar.bz2
